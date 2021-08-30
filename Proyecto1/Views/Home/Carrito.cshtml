@@ -1,0 +1,51 @@
+﻿@model List<VPNET.Data.Model.Productos>
+@using Microsoft.AspNetCore.Http;
+@{
+    ViewData["Title"] = "Carrito";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string total = ViewBag.total;
+}
+
+<table class="table table-success table-striped">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            @*<th scope="col">Id</th>*@
+            <th scope="col">Nombre</th>
+            <th scope="col">Precio</th>
+            <th scope="col">Cantidad</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var i in Model)
+        {
+            <tr>
+                <th scope="row"><img src="data:image/png;base64, @i.Imagen" class="rounded float-start" alt="..." style="height:70px;width:70px"></th>
+                @*<th scope="row" id="">@i.Id</th>*@
+                <td style="padding-top:40px; font-weight:bolder">@i.Nombre</td>
+                <td style="padding-top:40px; font-weight:bolder">$@decimal.Round(i.Precio, 2).ToString()</td>
+                <td style="padding-top:40px; font-weight:bolder;padding-left:3rem">@i.Stock.ToString()</td>
+                <td><a class="btn btn-success" href="@Url.Action("SacarDeCarrito","Home", new { idProc = i.Id})">Remover</a></td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="container">
+    <div class="row">
+        <div class="col-4">
+            <p style="font-weight:bolder;margin-top:12px">Total: @total</p>
+        </div>
+        <div class="col-6">
+            <a type="submit" class="btn btn-success btn-lg" href="@Url.Action("mercadoPago", "Home")" name="submit" value="buy">Comprar</a>
+        </div>
+    </div>
+</div>
+<script src="~/js/jquery-3.6.0.min.js"></script>
+<script src="~/js/sweetalert.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.12.15/dist/sweetalert2.all.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script>
+    
+    
+</script>

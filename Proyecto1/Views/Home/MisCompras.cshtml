@@ -1,0 +1,33 @@
+﻿@model List<VPNET.Data.Model.Productos>
+@using Microsoft.AspNetCore.Http;
+@{
+    ViewData["Title"] = "Carrito";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int user = int.Parse(Context.Session.GetString("UserID"));
+}
+
+<table class="table table-success table-striped">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Precio</th>
+            <th scope="col">Cantidad</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var i in Model)
+        {
+            <tr>
+                <th scope="row"><img src="data:image/png;base64, @i.Imagen" class="rounded float-start" alt="..." style="height:70px;width:70px"></th>
+                <td style="padding-top:40px; font-weight:bolder"><a href="@Url.Action("ProductoDetalle", "Home", new { idProc = user })">@i.Nombre</a></td>
+                <td style="padding-top:40px; font-weight:bolder">$@decimal.Round(i.Precio, 2).ToString()</td>
+                <td style="padding-top:40px; font-weight:bolder;padding-left:3rem">@i.Stock.ToString()</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<script src="~/js/jquery-3.6.0.min.js"></script>
+<script src="~/js/sweetalert.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.12.15/dist/sweetalert2.all.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>

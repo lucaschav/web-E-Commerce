@@ -1,0 +1,119 @@
+﻿@model List<VPNET.Data.Model.Productos>
+@using VPNET.Data.Model
+@{
+    
+    List<Categorias> lstCategs = ViewBag.Categ;
+    string idproc = "idProc";
+}
+<head>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</head>
+<div class="">
+    <div class="container py-5">
+        <div class="row">
+
+            <div class="col-lg-3">
+                @*<h1 class="h2 pb-4">Categorias</h1>*@
+                <!--<ul class="list-unstyled templatemo-accordion">
+                    <li class="pb-3">
+                        <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
+                            Categorias
+                            <i class="fa fa-fw fa-chevron-circle-down mt-1"></i>
+                        </a>-->
+                        @*<ul class="collapse show list-unstyled pl-3">
+                            @foreach (var item in lstCategs)
+                            {
+                                <li><a class="text-decoration-none" href="#">@item.Nobre</a></li>
+                            }
+                        </ul>*@
+                    <!--</li>
+                </ul>-->
+            </div>
+
+            <div class="col-lg-9">
+
+                <div class="row Cuadros">
+                    @foreach (var proc in Model)
+                    {
+                        <div class="col-md-4">
+                            <div class="card mb-4 product-wap rounded-0">
+                                <div class="card rounded-0">
+                                    <img class="card-img rounded-0 img-fluid" src="@proc.Imagen">
+                                    <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
+                                        <ul class="list-unstyled">
+                                            <li><a class="btn btn-success text-white" href="shop-single.html"><i class="far fa-heart"></i></a></li>
+                                            <li><a class="btn btn-success text-white mt-2" href="@Url.Action("ProductoDetalle","Home",new { idProc = proc.Id })"><i class="far fa-eye"></i></a></li>
+                                            <li><a class="btn btn-success text-white mt-2" onclick="AgregarAlCarro(@proc.Id)" href="" id="IconCarro"><i class="fas fa-cart-plus"></i></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div style="display:none">
+                                        <input id="@(idproc + proc.Id.ToString())" type="text" readonly value="@proc.Id" />
+                                    </div>
+                                    <a href="" class="h3 text-decoration-none">@proc.Nombre.ToString()</a>
+                                    <p class="text-center mb-0">$@decimal.Round(proc.Precio, 2).ToString()</p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script src="~/js/jquery-3.6.0.min.js"></script>
+<script src="~/js/sweetalert.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.12.15/dist/sweetalert2.all.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script>
+   /* arreglar el ajax*/
+    $(document).ready(function () {
+
+
+    });
+
+    function AgregarAlCarro(id) {
+        debugger
+        var ids = id.toString();
+        event.preventDefault();
+        var idp = $("#idProc" + ids).val();
+
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("AgregarAlCarrito", "Home")',
+                data: { IdProducto: idp, Cantidad: 1 },
+                success: function (data) {
+                    if (data.result == true) {
+                        swal("Agregador al carrito correctamente", "", "success");
+                    } else {
+                        swal("Error al agregar al carrito", "", "danger");
+                    }
+                }
+            });
+    }
+
+        @*$("#IconCarro").click(function () {
+            debugger
+            event.preventDefault();
+            var idp = $("#idProc").val();
+
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("AgregarAlCarrito", "Home")',
+                data: { IdProducto: idp, Cantidad: 1 },
+                success: function (data) {
+                    if (data.result == true) {
+                        swal("Agregador al carrito correctamente", "", "success");
+                    }
+                }
+            });
+
+            swal("Hello world!");
+        });*@
+
+</script>
